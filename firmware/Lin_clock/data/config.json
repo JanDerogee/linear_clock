@@ -1,0 +1,9 @@
+{
+    "ssid": "your_SSID",
+	"key": "your_KEY",
+	"ntp": "time.nist.gov",
+	"offset": "0",
+	"dst": false,
+	"alarm": true,
+	"chime": true	
+}

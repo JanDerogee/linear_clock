@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />  
+  <title>Linear clock</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">  
+  <link rel="icon" href="favicon.ico">    
+  <link rel='stylesheet' type='text/css' href='style.css' />
+
+  <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>-->
+  <script src="jquery.min.js"></script> <!-- use this, this way we are not depending on the outside world (this should protect us from script updates (in the far future) we can't handle) -->
+  <script>
+  function form_apply()	{document.getElementById("settingsForm").submit();}
+  function status_update() {$("#status_message").load("status_message.txt"); setTimeout(status_update, 3000);}	//fill the status field, do it again ...ms from now
+  
+  $(document).ready(function()
+	{
+	  setTimeout(status_update, 100);	//fill the status field directly when loaded		  
+	  
+	  $.getJSON("config.json", function(data)
+	  {
+		  $('input[name="ssid"]').val(data["ssid"]);
+		  $('input[name="key"]').val(data["key"]);
+		  $('input[name="ntp"]').val(data["ntp"]);
+		  $('input[name="offset"]').val(data["offset"]);		  
+		  if(data["dst"] == false)		{$('input[name="dst"]')[0].checked = true;}		//off
+		  else       		 			{$('input[name="dst"]')[1].checked = true;}		//on
+
+		  if(data["alarm"] == false)	{$('input[name="alarm"]')[0].checked = true;}	//off
+		  else       		 			{$('input[name="alarm"]')[1].checked = true;}	//on
+
+		  if(data["chime"] == false)	{$('input[name="chime"]')[0].checked = true;}	//off
+		  else       		 			{$('input[name="chime"]')[1].checked = true;}	//on		  
+	  });
+	  
+    });
+  </script>
+</head>
+
+<body>
+  <div id="page-wrap">
+ 
+    <header>
+      <img src="logo.jpg" />  
+      <nav>
+        <ul class="group">
+			<li><a href="info.htm">Info</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <section id="content_1">
+		<br>
+		<br>
+		<h2>	
+			<form id="settingsForm" action="" method='POST'>
+				<h3>Clock status:</h3>	
+				<br>
+				<div id="status_message">
+				   Loading...<br>		   
+				</div>
+				<br>
+				<br>
+				<h3>Wifi settings:</h3>
+				<br>
+				Network SSID &nbsp;&nbsp;&nbsp;<input type="text" name="ssid" size="30" value="Loading..."><br>
+				Network key &nbsp;&nbsp;&nbsp; <input type="text" name="key" size="30" value="Loading..."><br>
+				<br>
+				<br>				
+				<h3>Clock settings:</h3>
+				<br>
+				NTP server &nbsp;&nbsp;&nbsp;&nbsp; <input type="text" name="ntp" size="30" value="Loading..."><br>
+				UTC offset &nbsp;&nbsp;&nbsp;&nbsp; <input type="value" name="offset" size="30" value="Loading..."><br>
+				<br>
+				Daylight Savings Time		<input type="radio" name="dst" value="off"> Off
+											<input type="radio" name="dst" value="on" > On<br>
+				<br>
+				Alarm functionality &nbsp;	<input type="radio" name="alarm" value="off"> Off
+											<input type="radio" name="alarm" value="on"> On<br>
+				<br>
+				Chime functionality &nbsp;	<input type="radio" name="chime" value="off"> Off
+											<input type="radio" name="chime" value="on"> On<br>
+				<br>
+			</form>
+		</h2>
+		<br>		
+    </section>
+	<nav>
+		<ul class="group">
+			<input type="button" style="height:40px;width:158px" onclick="form_apply()" value="Apply">							
+		</ul>
+	</nav>
+	<br>	
+	After changing the wifi settings "apply" must be pressed in order to save the changes,<br>
+	when the values are changed the clock will attempt to reconnect to the entered network.<br>	
+	After changing the clock settings "apply" must be pressed in order to save/use the changes.<br>
+	<br>
+    <footer>
+      &copy;2018 J.Derogee
+    </footer>     
+  </div>
+</body>
+</html>

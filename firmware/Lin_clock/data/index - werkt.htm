@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />  
+  <title>Linear clock</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">  
+  <link rel="icon" href="favicon.ico">    
+  <link rel='stylesheet' type='text/css' href='style.css' />
+
+  <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>-->
+  <script src="jquery.min.js"></script> <!-- use this, this way we are not depending on the outside world (this should protect us from script updates (in the far future) we can't handle) -->
+  <script>
+  function form_apply()			{document.getElementById("settingsForm").submit(); }
+
+  $(document).ready(function()
+	{	
+	  $.getJSON("config.json", function(data) {
+		  $('input[name="ssid"]').val(data["ssid"]);
+		  $('input[name="key"]').val(data["key"]);
+		  $('input[name="ntp"]').val(data["ntp"]);
+		  $('input[name="offset"]').val(data["offset"]);		  
+		  if(data["dst"] == false)		{$('input[name="dst"]')[0].checked = true;}		//off
+		  else       		 			{$('input[name="dst"]')[1].checked = true;}		//on
+
+		  if(data["alarm"] == false)	{$('input[name="alarm"]')[0].checked = true;}	//off
+		  else       		 			{$('input[name="alarm"]')[1].checked = true;}	//on
+
+		  if(data["chime"] == false)	{$('input[name="chime"]')[0].checked = true;}	//off
+		  else       		 			{$('input[name="chime"]')[1].checked = true;}	//on		  
+	  });
+
+      $("#setting_localtime").load("localtime_val.txt");
+
+      $("#btn_refresh").click(function()	{window.location.reload();;
+											});
+	  
+    });
+  </script>
+</head>
+
+<body>
+  <div id="page-wrap">
+    <header>
+      <img src="logo.jpg" />  
+      <nav>
+        <ul class="group">
+            <li><a href="info.htm">Info</a></li>
+          </ul>
+      </nav>
+    </header>
+
+    <section id="content_1">
+		<br>
+		After changing the settings "apply" must be pressed in order to save/use the changes.		
+		<br>
+		<br>
+		<h2>	
+			<form id="settingsForm" action="" method='POST'>
+				<h3>Wifi settings</h3>
+				SSID &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="ssid" size="50" value="Loading..."><br>
+				Key &nbsp;&nbsp;&nbsp;&nbsp; <input type="text" name="key" size="50" value="Loading..."><br>
+				<br>	  
+				<h3>Clock settings</h3>
+				NTP &nbsp;&nbsp;&nbsp;&nbsp; <input type="text" name="ntp" size="50" value="Loading..."><br>
+				Offset &nbsp; <input type="value" name="offset" size="50" value="Loading..."><br>
+				<br>
+				Daylight savings time		<input type="radio" name="dst" value="off"> Off
+											<input type="radio" name="dst" value="on" > On<br>
+				<br>
+				Alarm functionality &nbsp;	<input type="radio" name="alarm" value="off"> Off
+											<input type="radio" name="alarm" value="on"> On<br>
+				<br>
+				Chime functionality &nbsp;	<input type="radio" name="chime" value="off"> Off
+											<input type="radio" name="chime" value="on"> On<br>
+				<br>
+				<br>
+				<h3>Clock status</h3>	
+				<div id="setting_localtime">
+				   Loading status...<br>		   
+				</div>
+			</form>
+		</h2>
+    </section>
+	<nav>
+		<ul class="group">
+			<button type="_button_refresh" style="height:40px;width:158px" id="btn_refresh" >Refresh</button>
+			<button type="button_apply" style="height:40px;width:158px" id="btn_apply" onclick="form_apply()">Apply btn</button>
+			<input type="button" style="height:40px;width:158px" onclick="form_apply()" value="Apply">							
+		</ul>
+	</nav>
+	<br>
+	<br>
+    <footer>
+      &copy;2018 J.Derogee
+    </footer>     
+  </div>
+</body>
+</html>
