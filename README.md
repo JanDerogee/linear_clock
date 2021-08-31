@@ -11,4 +11,4 @@ The clock reaches it highest point at the same time the sun does (well... theore
 The clock is simple in construction, requires just one single stepper motor and is based on an ESP8266 and a threaded rod.
 
 For more information:
-http://home.kpn.nl/bderogee1980/projects/linear_clock/linear_clock.html
+https://janderogee.com/projects/linear_clock/linear_clock.html
